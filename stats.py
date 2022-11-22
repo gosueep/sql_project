@@ -9,7 +9,6 @@ cursor.execute("SET SESSION search_path='%s'" % 'f22_group5')
 
 
 def change(start=2010, end=2020, state='Colorado', county='Jefferson'):
-
     query = """
         SELECT br.year, birth_rate, percent_less_hs, percent_hs, percent_associates, percent_bachelors
         FROM area_codes ac 
@@ -18,13 +17,11 @@ def change(start=2010, end=2020, state='Colorado', county='Jefferson'):
             JOIN education_hs ed2 ON br.fips = ed2.fips AND br.year = ed2.year
             JOIN education_associates ed3 ON br.fips = ed3.fips AND br.year = ed3.year
             JOIN education_bachelors ed4 ON br.fips = ed4.fips AND br.year = ed4.year
-            
         WHERE
             br.year = %s AND  
             br.fips = (SELECT DISTINCT fips
                     FROM area_codes 
-                    WHERE state = %s AND county = %s)
-        ;
+                    WHERE state = %s AND county = %s);
     """
 
     # PREPARED STATEMENT for the year range
